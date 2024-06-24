@@ -9,17 +9,17 @@ from PIL import Image
 
 
 maskfiles1 =[]
-mask_path = '/scratch/sb9084/Dreambooth-Stable-Diffusion/IJCB/data/Celeba_HQ_masks'
+mask_path = '/path/to/Celeba_HQ_masks'
 for path in Path(f"{mask_path}").glob('*.png'):
     fname =path.stem
-    if 'l_brow' in str(fname):
+    if 'l_brow' in str(fname): #[l_brow, l_eye, l_ear, lower_lip]
         maskfiles1.append(str(path))
 print(len(maskfiles1))
 
 maskfiles2 =[]
 for path in Path(f"{mask_path}").glob('*.png'):
     fname =path.stem
-    if 'r_brow' in str(fname):
+    if 'r_brow' in str(fname): #[r_brow, r_eye, r_ear, upper_lip]
         maskfiles2.append(str(path))
 print(len(maskfiles2))
 
