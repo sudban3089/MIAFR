@@ -102,6 +102,7 @@ year = {2024},
 ```
 
 ## Acknowledgment and References
-This repository is heavily dependent on code borrowed from different sources. Please see below
+This repository is heavily dependent on code borrowed from different sources. 
+ We use the official implementation of [DreamBooth-based facial age editing](https://github.com/sudban3089/ID-Preserving-Facial-Aging) for DB-prop. We use HuggingFace for implementing [textual inversion](https://huggingface.co/docs/diffusers/en/using-diffusers/textual_inversion_inference). We use the ControlNetV1.1 with Stable Diffusion V1.5 in [inpainting mode](https://huggingface.co/lllyasviel/control_v11p_sd15_inpaint). We use the ArcFace matcher from the [deepface library](https://github.com/serengil/deepface) and the [AdaFace matcher](https://github.com/mk-minchul/AdaFace) from its original implementation. We use the [BLIP  Diffusion](https://huggingface.co/docs/diffusers/en/api/pipelines/blip_diffusion) from the HuggingFace. We use [LLaVA](https://huggingface.co/docs/transformers/main/en/model_doc/llava) from the HuggingFace.
 
 
