@@ -86,24 +86,22 @@ python scripts/stable_txt2img.py --ddim_eta 0.0
 ```
 ### Evaluation
 
-- We perform face quality check using [EQFace](https://github.com/deepcam-cn/FaceQuality) where we download the pretrained model provided by the original authors and run `python test_quality.py --backbone backbone.pth --quality quality.path --file test_faces`, where `test_faces` indicate the age translated faces. We select a threshold of 0.4 to determine if a generated face should be retained or else, discarded.
-- We perform biometric matching (with ArcFace) and age computation using [deepface](https://github.com/serengil/deepface) library. We perform biometric matching using [AdaFace](https://github.com/mk-minchul/AdaFace)
+- We perform biometric matching (with ArcFace) using [deepface](https://github.com/serengil/deepface) library. We perform biometric matching using [AdaFace](https://github.com/mk-minchul/AdaFace)
 - We use the official implementation of [AttGAN](https://github.com/LynnHo/AttGAN-Tensorflow), [Talk-to-Edit](https://github.com/yumingj/Talk-to-Edit), [IPCGAN](https://github.com/dawei6875797/Face-Aging-with-Identity-Preserved-Conditional-Generative-Adversarial-Networks) and [ProFusion](https://github.com/drboog/ProFusion) for baseline comparison.
 
-
-## Acknowledgment
-This repository is heavily dependent on code borrowed from [Dreambooth Stable Diffusion](https://github.com/XavierXiao/Dreambooth-Stable-Diffusion) repository. All changes made in the scripts and config files need to be incorporated to reproduce the results from the conference paper.
 
 ## Citation
 If you find this code useful or utilize it in your work, please cite:
 ```
-@INPROCEEDINGS {IDFaceAging_IJCB2023,
-author = {Sudipta Banerjee* and Govind Mittal* and Ameya Joshi and Chinmay Hegde and Nasir Memon},
+@INPROCEEDINGS {MIAFR_IJCB2024,
+author = {Sudipta Banerjee and Sai Pranaswi Mullangi and Shruti Wagle and Chinmay Hegde and Nasir Memon},
 booktitle = {IEEE International Joint Conference on Biometrics (IJCB)},
-title = {Identity-Preserving Aging of Face Images via Latent Diffusion Models},
-year = {2023},
+title = {Mitigating the Impact of Attribute Editing on Face Recognition},
+year = {2024},
 }
 ```
-## Update
-I have shared few training examples in the `IJCB2023_TrainExamples` folder for learning purposes. Please download the datasets from original authors for complete fine-tuning.
+
+## Acknowledgment and References
+This repository is heavily dependent on code borrowed from different sources. Please see below
+
 
