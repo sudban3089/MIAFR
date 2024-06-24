@@ -890,64 +890,33 @@ def main():
 
                 loss = F.mse_loss(model_pred.float(), target.float(), reduction="mean")
 
-                ### SUD -softmargin
-                loss_softmargin = F.soft_margin_loss(model_pred.float(), target.float(), reduction="mean")
+                ### custom losses -- smooth L1 loss
 
-                loss += loss_softmargin
-                ##
+                lossL1 = F.smooth_l1_loss(model_pred.float(), target.float(), reduction="mean")
 
-                ### SUD -- lpips loss
-                # loss_lpips = LearnedPerceptualImagePatchSimilarity(net_type='squeeze')
-                # model_pred_rescaled = (model_pred * 2) -1
-                # target_rescaled = (target * 2) -1
-                # loss_perceptual = loss_lpips(model_pred_rescaled, target_rescaled)
+                loss += lossL1
 
-                #model_output_flatten = torch.flatten(model_pred,start_dim=2) #.transpose([0,2,1])
-                #target_flatten = torch.flatten(target,start_dim=2) #.transpose([0,2,1])
+                ## custom losses --cosineembeddingloss
                 
-                # lpipsloss=[]
-                
-                # for ind in range(target_flatten.size()[1]):
-                # #     print(ind)
-                #     model_pred_rescaled = (model_output_flatten[:,ind,:] * 2) -1
-                #     target_rescaled = (target_flatten[:,ind,:] * 2) -1
-                #     lpipsloss.append(loss_lpips(model_pred_rescaled, target_rescaled))
-            
-        
-                # lpips_weight = 1.0
-                # loss_perceptual = lpips_weight * torch.stack(lpipsloss,axis=0)
-                # loss_perceptual = sum(loss_perceptual)/len(loss_perceptual)
-
-                # loss += loss_perceptual
-
-                ### SUD -- smooth L1 loss
-
-                #lossL1 = F.smooth_l1_loss(model_pred.float(), target.float(), reduction="mean")
-
-                #loss += lossL1
-
-                ## SUD --cosineembeddingloss
-                #model_output_flatten = torch.flatten(model_pred,start_dim=2) #.transpose([0,2,1])
+                model_output_flatten = torch.flatten(model_pred,start_dim=2) #.transpose([0,2,1])
                 #print(model_output_flatten.size())
-                #target_flatten = torch.flatten(target,start_dim=2) #.transpose([0,2,1])
+                target_flatten = torch.flatten(target,start_dim=2) #.transpose([0,2,1])
                 #print(target_flatten.size())
         
-                #batch_size=target_flatten.size()[0]
-                # labels = torch.ones(batch_size, device="cuda:0")
+                batch_size=target_flatten.size()[0]
+                labels = torch.ones(batch_size, device="cuda:0")
         
-                # cosineloss=[]
-                # criterion = nn.CosineEmbeddingLoss()
-                # for ind in range(target_flatten.size()[1]):
-                #     #print(ind)
-                    
-                #     cosineloss.append(criterion(model_output_flatten[:,ind,:], target_flatten[:,ind,:], labels))
-            
+                cosineloss=[]
+                criterion = nn.CosineEmbeddingLoss()
+                for ind in range(target_flatten.size()[1]):
+                    #print(ind)
+                    cosineloss.append(criterion(model_output_flatten[:,ind,:], target_flatten[:,ind,:], labels))
         
-                # cosine_weight = 0.5
-                # loss_cosine = cosine_weight * torch.stack(cosineloss,axis=0)
-                # loss_cosine = sum(loss_cosine)/len(loss_cosine)
+                cosine_weight = 0.5
+                loss_cosine = cosine_weight * torch.stack(cosineloss,axis=0)
+                loss_cosine = sum(loss_cosine)/len(loss_cosine)
 
-                # loss += loss_cosine
+                loss += loss_cosine
                 ## 
                 
                 accelerator.backward(loss)
