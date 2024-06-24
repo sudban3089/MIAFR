@@ -1,7 +1,7 @@
 # MIAFR
 This is the official implementation of **Mitigating the Impact of Attribute Editing on Face Recognition** that has been accepted in International Joint Conference in Biometrics (IJCB 2024). Refer to [our paper](https://arxiv.org/html/2403.08092v1).
 
-![alt text](overview.png)
+![alt text](IJCB2024_Overview.PNG)
 
 ## Usage
 Create the `ldm` environment by following the steps outlined in [Dreambooth Stable Diffusion](https://github.com/XavierXiao/Dreambooth-Stable-Diffusion). Check `environment.yaml` file. Ensure that the environment is set up correctly before proceeding. 
