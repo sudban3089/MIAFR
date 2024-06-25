@@ -44,7 +44,7 @@ def resize_img(input_image, max_side=1280, min_side=1024, size=None,
 if __name__ == "__main__":
 
     # Load face encoder
-    app = FaceAnalysis(name='antelopev2', root='/home/sgw6735/.insightface/', providers=['CUDAExecutionProvider', 'CPUExecutionProvider'])
+    app = FaceAnalysis(name='antelopev2', root='.insightface/', providers=['CUDAExecutionProvider', 'CPUExecutionProvider'])
     app.prepare(ctx_id=0, det_size=(640, 640))
 
     # Path to InstantID models
