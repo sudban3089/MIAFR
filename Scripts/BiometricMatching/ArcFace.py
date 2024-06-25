@@ -27,14 +27,14 @@ imp_scores=[]
 for ind, img1 in enumerate(orifiles[startind:], start=startind):
     print(ind)
     fname1= pathlib.PurePath(str(img1))
-    subid1 = Path(str(fname1)).stem
+    subid1 = Path(str(fname1)).stem  # original image filename is '00001.png'
 
    
     for img2 in genfiles:
         fname2= pathlib.PurePath(str(img2))
         pathnm2 = Path(str(fname2)).stem
         split2 = pathnm2.split('_')
-        subid2 = split2[0]
+        subid2 = split2[0] # attribute edited image filename '00001_brownhair.png'
         try:
           score = DeepFace.verify(img1, img2, model_name="ArcFace", detector_backend='retinaface')['distance'] 
           if subid1 == subid2:
