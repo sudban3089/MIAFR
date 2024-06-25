@@ -1,10 +1,14 @@
 # MIAFR
 This is the official implementation of **Mitigating the Impact of Attribute Editing on Face Recognition** that has been accepted in International Joint Conference in Biometrics (IJCB 2024). Refer to [our paper](https://arxiv.org/html/2403.08092v1).
 
-![alt text](IJCB2024_Overview.PNG)
+Run `Demo.py` for a quick demo to obtain the outputs below. Running the script may require sometime to load vae/diffusion-pytorch-model.safetensors and text_encoder/model.safetensors for the first time. You may enable the safety checker in the pipeline.
+
+![alt text](Demo_Github.PNG)
 
 ## Overview
 Through a large-scale study over diverse face images, we show that facial attribute editing using modern generative AI models can severely degrade automated face recognition systems. This degradation persists even with generative models that include additional identity-based loss function. To mitigate this issue, we propose two novel techniques for local and global attribute editing. We empirically ablate twenty-six facial semantic, demographic and expression-based attributes that have been edited using state-of-the-art generative models, and evaluate them using ArcFace and AdaFace matchers on CelebA, CelebAMaskHQ and LFW datasets. Finally, we use LLaVA, an emerging visual question-answering framework for attribute prediction to validate our editing techniques. Our methods outperform the current state-of-the-art at facial editing (BLIP, InstantID) while retaining identity by a significant extent.
+
+![alt text](IJCB2024_Overview.PNG)
 
 ## Usage
 - Create the `ldm` environment by following the steps outlined in [ID-Preserving-Facial-Aging](https://github.com/sudban3089/ID-Preserving-Facial-Aging) for global editing. We fine-tune a pre-trained stable diffusion model whose weights can be downloaded from [Hugging Face](https://huggingface.co/CompVis) model card. We use `v1-5-pruned.ckpt` for regularization-based fine-tuning for global editing.
