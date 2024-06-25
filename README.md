@@ -1,7 +1,7 @@
 # MIAFR
 This is the official implementation of **Mitigating the Impact of Attribute Editing on Face Recognition** that has been accepted in International Joint Conference in Biometrics (IJCB 2024). Refer to [our paper](https://arxiv.org/html/2403.08092v1).
 
-Run `Demo.py` for a quick demo to obtain the outputs below. Running the script may require sometime to load vae/diffusion-pytorch-model.safetensors and text_encoder/model.safetensors for the first time. You may enable the safety checker in the pipeline.
+Run `Demo.py` for a quick demo to obtain the outputs below. Running the script may require some time to load vae/diffusion-pytorch-model.safetensors and text_encoder/model.safetensors for the first time. You may enable the safety checker in the pipeline.
 
 ![alt text](GithubDemo.PNG)
 
@@ -13,7 +13,6 @@ Through a large-scale study over diverse face images, we show that facial attrib
 ## Usage
 - Global editing: Create the environment by following the steps outlined in [ID-Preserving-Facial-Aging](https://github.com/sudban3089/ID-Preserving-Facial-Aging). We fine-tune a pre-trained stable diffusion model whose weights can be downloaded from [Hugging Face](https://huggingface.co/CompVis) model card. We use `v1-5-pruned.ckpt` for regularization-based fine-tuning for global editing using the contrastive loss setting. Check `Scripts/AttributeEditing/Global` folder to look at the scripts. We have provided the main script(s) that may require hellper functions and auxillary scripts from [ID-Preserving-Facial-Aging](https://github.com/sudban3089/ID-Preserving-Facial-Aging) Global editing needs the data as follows:
 
-### Data preparation
 We need a **Regularization Set** that comprises images depicting distinct individuals (disjoint from the training set) depicting varying attributes. We curated a set of 780 images that serves as image-caption pairs in this work. Download the Regularization Set used in our work from github or you can create your own regularization set but we cannot verify the performance with a custom regularization set. 
 
 We need a **Training Set** that comprises images of a specific individual on whom the facial aging will be applied. The training set enables the diffusion model to learn the identity-specific charctristics during training that are then transferred at the time of generation of images for attribute editing. You need to collect the CelebA, LFW and CelebAMaskHQ datasets from the original sources.
@@ -21,13 +20,15 @@ We need a **Training Set** that comprises images of a specific individual on who
 - Local editing: Refer to `Scripts/AttributeEditing/Local` folder. There you will find two scripts: CN-IP.py (extension of Demo.py) and MaskFusion.py for fusing multiple masks for composite attribute editing. You need CelebAMaskHQ dataset for the images and the corresponding semantic segmentation masks.
 
 - Baselines:
- -- BLIPDiffusion: Refer to `Scripts\BLIPDiffusion`
+  - BLIPDiffusion: Refer to `Scripts/BLIPDiffusion/blip.py` for running BLIP Diffusion based local editing. Note that BLIP requires reference image for style transfer. For example, you need to change the hair color of the `source` image to black, then you need to provide a `target reference` image as someone with black hair. BLIP Diffuison can be used without ControlNet or with ControlNet. Check the script. Currenlty ControlNet is uncommented. Refer to [BLIP Diffusion](https://github.com/salesforce/LAVIS/tree/main/projects/blip-diffusion) for more details.
+  - InstantID: Refer to `Scripts/InstantID` folder. Please follow the instructions of the original repo of [InstantID](https://github.com/InstantID/InstantID) and follow all the installation instructions. We only provided the main script(s) such as `infer_gender.py`, `infer_person.py`, `infer_wearing.py` and `infer_with.py`. The differences are only in the list of *attributes* and *n_prompt*. Make sure to load the checkpoints from the original repo.
+  - MaskFaceGAN: We perform qualitative comparison with MaskFaceGAN. Please follow the instructions of the original repo of [MaskFaceGAN](https://github.com/MartinPernus/MaskFaceGAN) for pre-trained models and environment setup. Refer to `Scripts/MaskFaceGAN/main.py`.
 
 
-### Evaluation
+## Evaluation
 
-- We perform biometric matching (with ArcFace) using [deepface](https://github.com/serengil/deepface) library. We perform biometric matching using [AdaFace](https://github.com/mk-minchul/AdaFace)
-- We use the official implementation of [BLIP Diffusion](https://github.com/salesforce/LAVIS/tree/main/projects/blip-diffusion), [InstantID](https://github.com/InstantID/InstantID) and [MaskFaceGAN](https://github.com/MartinPernus/MaskFaceGAN) for baseline comparison.
+- Biometric matching: We perform biometric matching (with ArcFace) using [deepface](https://github.com/serengil/deepface) library and [AdaFace](https://github.com/mk-minchul/AdaFace) Refer to `Scripts/BiometricMatching/ArcFace.py`. Follow AdaFace installation and usage instructions from the original repo and follow similar syntax as ArcFace.py. Note AdaFace provides similairty scores whereas ArcFace povides distance scores in our implementation. If the scores belong to the same individual, then they are *genuine* else *imposter* scores. 
+- Attribute prediction: We use LLaVa and BLIP_VQA for attribute prediction. Refer to `Scripts/AttributePredictionUsingLLaVa` and `Scripts/BLIP_VQA` for more details.
 
 
 ## Citation
