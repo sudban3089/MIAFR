@@ -1,0 +1,52 @@
+device: cuda:0
+
+optimizer:
+  lr_latent: 0.001
+  lr_noise: 0.1
+  reinit: true
+
+steps:
+  latent: 1000
+  noise: 500
+  log: 100
+
+models:
+  update_shape: false
+
+loss:
+  weights:
+    classf: 0.005
+    mse: 2
+    seg: 0.5
+    n_loss: 1
+    size: 1
+    lpips: 0.03
+  start_steps:
+    classf: 500
+    mse: 0
+    seg: 500
+    n_loss: 0
+
+dynamic_masking: true
+dynamic_masking_iters: 200
+
+local_attributes:
+  - wearing_lipstick
+  - mouth_slightly_open
+  - smiling
+  - bushy_eyebrows
+  - arched_eyebrows
+  - narrow_eyes
+  - pointy_nose
+  - big_nose
+  - black_hair
+  - brown_hair
+  - blond_hair
+  - gray_hair
+  - wavy_hair
+  - straight_hair
+
+global_attributes: 
+  - male
+  - young
+  - pale_skin
