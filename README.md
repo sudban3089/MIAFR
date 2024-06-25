@@ -11,32 +11,19 @@ Through a large-scale study over diverse face images, we show that facial attrib
 ![alt text](IJCB2024_Overview.PNG)
 
 ## Usage
-- Create the `ldm` environment by following the steps outlined in [ID-Preserving-Facial-Aging](https://github.com/sudban3089/ID-Preserving-Facial-Aging) for global editing. We fine-tune a pre-trained stable diffusion model whose weights can be downloaded from [Hugging Face](https://huggingface.co/CompVis) model card. We use `v1-5-pruned.ckpt` for regularization-based fine-tuning for global editing.
-
-## Fine-tuning
-Fine-tuning is only required for DreamBooth-based global editing.
+- Global editing: Create the environment by following the steps outlined in [ID-Preserving-Facial-Aging](https://github.com/sudban3089/ID-Preserving-Facial-Aging). We fine-tune a pre-trained stable diffusion model whose weights can be downloaded from [Hugging Face](https://huggingface.co/CompVis) model card. We use `v1-5-pruned.ckpt` for regularization-based fine-tuning for global editing using the contrastive loss setting. Check `Scripts/AttributeEditing/Global` folder to look at the scripts. We have provided the main script(s) that may require hellper functions and auxillary scripts from [ID-Preserving-Facial-Aging](https://github.com/sudban3089/ID-Preserving-Facial-Aging) Global editing needs the data as follows:
 
 ### Data preparation
 We need a **Regularization Set** that comprises images depicting distinct individuals (disjoint from the training set) depicting varying attributes. We curated a set of 780 images that serves as image-caption pairs in this work. Download the Regularization Set used in our work from github or you can create your own regularization set but we cannot verify the performance with a custom regularization set. 
 
-We need a **Training Set** that comprises images of a specific individual on whom the facial aging will be applied. The training set enables the diffusion model to learn the identity-specific charctristics during training that are then transferred at the time of generation of images with aging/de-aging. This repo currently supports single subject-specific training. You can create a custom batch script for training multiple subjects simultaneously, ensure that the rare token is linked to *each* subject uniquely, otherwise it may result in inconsistent outputs or identity lapse.   
+We need a **Training Set** that comprises images of a specific individual on whom the facial aging will be applied. The training set enables the diffusion model to learn the identity-specific charctristics during training that are then transferred at the time of generation of images for attribute editing. You need to collect the CelebA, LFW and CelebAMaskHQ datasets from the original sources.
 
-We used the [contrastive loss](https://github.com/sudban3089/ID-Preserving-Facial-Aging) for fine-tuning.
+- Local editing: Refer to `Scripts/AttributeEditing/Local` folder. There you will find two scripts: CN-IP.py (extension of Demo.py) and MaskFusion.py for fusing multiple masks for composite attribute editing. You need CelebAMaskHQ dataset for the images and the corresponding semantic segmentation masks.
 
-### Facial aging/de-aging synthesis
+- Baselines:
+ -- BLIPDiffusion: Refer to `Scripts\BLIPDiffusion`
 
-After the completion of fine-tuning, you can generate photo on the trained individual by specifying the rare-token identifier (must match training), the `--class_word` and `age-label` denotes one of the six age groups indicated above.
-```
-python scripts/stable_txt2img.py --ddim_eta 0.0 
-                                 --n_samples 8 
-                                 --n_iter 1 
-                                 --scale 10.0 
-                                 --ddim_steps 100  
-                                 --ckpt /path-to-saved-checkpoint-from-training
-                                 --prompt "photo of a <rare-token> <class> as <age-label>"
-                                 --outdir /directory to write output images
-                                 --config /path to the configs file .yaml that was used during fine-tuning
-```
+
 ### Evaluation
 
 - We perform biometric matching (with ArcFace) using [deepface](https://github.com/serengil/deepface) library. We perform biometric matching using [AdaFace](https://github.com/mk-minchul/AdaFace)
