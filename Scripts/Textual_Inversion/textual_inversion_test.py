@@ -8,7 +8,7 @@ file_path = os.path.join(root_dir,image_path)
 os.makedirs(file_path, exist_ok=True)
 
 pipeline = StableDiffusionPipeline.from_pretrained("runwayml/stable-diffusion-v1-5", safety_checker=None, torch_dtype=torch.float16).to("cuda")
-pipeline.load_textual_inversion("path/to/trained/textualinversion/object or style concept")
+pipeline.load_textual_inversion("path/to/trained/textualinversion/object or style concept (output_dir from .sh)")
 image = pipeline("a high-resolution, detailed photo of <specialtoken-person> with brown hair", num_inference_steps=50, num_images_per_prompt=2).images
 for ind, img  in enumerate(image):
     img.save(f"{file_path}/textinv_brownhairperson_{ind}.png")
