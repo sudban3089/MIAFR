@@ -2,7 +2,7 @@ from diffusers import StableDiffusionPipeline
 import torch
 import os
 
-root_dir = "/scratch/sb9084/Dreambooth-Stable-Diffusion/IJCB/InstantID-main/outputs"
+root_dir = "/path/to/output/dir"
 image_path = "specialtoken-person_textinv_numvect5"
 file_path = os.path.join(root_dir,image_path)
 os.makedirs(file_path, exist_ok=True)
